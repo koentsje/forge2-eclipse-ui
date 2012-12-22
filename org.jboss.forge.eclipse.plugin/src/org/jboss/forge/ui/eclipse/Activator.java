@@ -2,7 +2,7 @@ package org.jboss.forge.ui.eclipse;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.jboss.forge.container.Forge;
+import org.jboss.forge.ui.eclipse.integration.ForgeService;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -16,8 +16,6 @@ public class Activator extends AbstractUIPlugin
 
    // The shared instance
    private static Activator plugin;
-
-   public static Forge FORGE;
 
    /**
     * The constructor
@@ -36,15 +34,7 @@ public class Activator extends AbstractUIPlugin
    {
       super.start(context);
       plugin = this;
-      FORGE = new Forge();
-      new Thread()
-      {
-         @Override
-         public void run()
-         {
-            FORGE.start();
-         };
-      }.start();
+      ForgeService.INSTANCE.start();
    }
 
    /*
@@ -57,7 +47,7 @@ public class Activator extends AbstractUIPlugin
    {
       plugin = null;
       super.stop(context);
-      FORGE.stop();
+      ForgeService.INSTANCE.stop();
    }
 
    /**

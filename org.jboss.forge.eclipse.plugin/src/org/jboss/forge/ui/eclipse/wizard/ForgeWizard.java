@@ -23,7 +23,7 @@ public class ForgeWizard extends Wizard implements INewWizard
 
    public ForgeWizard()
    {
-      // TODO Auto-generated constructor stub
+      setNeedsProgressMonitor(true);
    }
 
    @Override
