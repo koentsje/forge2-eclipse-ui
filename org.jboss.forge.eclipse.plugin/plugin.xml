@@ -21,7 +21,7 @@
       </category>
       <wizard
             name="Run an Addon"
-            icon="icons/sample.gif"
+            icon="icons/forge.ico"
             category="org.jboss.forge.uiview"
             class="org.jboss.forge.uiview.wizards.SampleNewWizard"
             id="org.jboss.forge.uiview.wizards.SampleNewWizard">
