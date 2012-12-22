@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Forge Runtime
 Bundle-SymbolicName: org.jboss.forge.eclipse.runtime
 Bundle-Version: 2.0.0.qualifier
-Bundle-ClassPath: forge-jboss-modules-1.jar,
- forge-se-2.0.0-SNAPSHOT.jar
+Bundle-ClassPath: lib/forge-jboss-modules-1.jar,
+ lib/forge-se-2.0.0-SNAPSHOT.jar
 Bundle-Vendor: Red Hat
 Export-Package: ch.qos.cal10n,
  ch.qos.cal10n.util,

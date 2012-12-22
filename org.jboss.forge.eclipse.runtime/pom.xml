@@ -36,7 +36,7 @@
                         </artifactItem>
                      </artifactItems>
                      <skip>false</skip>
-                     <outputDirectory>${basedir}</outputDirectory>
+                     <outputDirectory>${basedir}/lib</outputDirectory>
                   </configuration>
                </execution>
             </executions>
