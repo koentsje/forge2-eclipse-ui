@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Sample Multi-page Editor"
+            extensions="mpe"
+            icon="icons/sample.gif"
+            contributorClass="org.jboss.forge.uiview.editors.MultiPageEditorContributor"
+            class="org.jboss.forge.uiview.editors.MultiPageEditor"
+            id="org.jboss.forge.uiview.editors.MultiPageEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="JBoss Forge"
+            id="org.jboss.forge.uiview">
+      </category>
+      <wizard
+            name="Run an Addon"
+            icon="icons/sample.gif"
+            category="org.jboss.forge.uiview"
+            class="org.jboss.forge.uiview.wizards.SampleNewWizard"
+            id="org.jboss.forge.uiview.wizards.SampleNewWizard">
+      </wizard>
+   </extension>
+
+</plugin>
