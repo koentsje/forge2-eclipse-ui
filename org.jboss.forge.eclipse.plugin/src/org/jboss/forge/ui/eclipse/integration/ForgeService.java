@@ -29,9 +29,7 @@ public enum ForgeService
 
    public void start()
    {
-      System.out.println("Startign 1");
       forge.startAsync();
-      System.out.println("Startign 2");
    }
 
    public AddonRegistry getAddonRegistry()
