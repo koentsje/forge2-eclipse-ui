@@ -3,28 +3,26 @@
 <plugin>
 
    <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            name="Sample Multi-page Editor"
-            extensions="mpe"
-            icon="icons/sample.gif"
-            contributorClass="org.jboss.forge.uiview.editors.MultiPageEditorContributor"
-            class="org.jboss.forge.uiview.editors.MultiPageEditor"
-            id="org.jboss.forge.uiview.editors.MultiPageEditor">
-      </editor>
-   </extension>
-   <extension
          point="org.eclipse.ui.newWizards">
       <category
             name="JBoss Forge"
-            id="org.jboss.forge.uiview">
+            id="org.jboss.forge.ui">
       </category>
       <wizard
-            name="Run an Addon"
-            icon="icons/forge.ico"
-            category="org.jboss.forge.uiview"
+            category="org.jboss.forge.ui"
             class="org.jboss.forge.uiview.wizards.SampleNewWizard"
-            id="org.jboss.forge.uiview.wizards.SampleNewWizard">
+            descriptionImage="icons/forge.png"
+            hasPages="true"
+            id="org.jboss.forge.uiview.wizards.SampleNewWizard"
+            name="Sample">
+      </wizard>
+      <wizard
+            category="org.jboss.forge.ui"
+            class="org.jboss.forge.ui.eclipse.wizard.ForgeWizard"
+            hasPages="true"
+            icon="icons/forge.ico"
+            id="org.jboss.forge.ui.eclipse.wizard.ForgeWizard"
+            name="Run an Addon">
       </wizard>
    </extension>
 
