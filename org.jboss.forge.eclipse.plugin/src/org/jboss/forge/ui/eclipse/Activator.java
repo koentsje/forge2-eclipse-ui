@@ -63,7 +63,7 @@ public class Activator extends AbstractUIPlugin
          @Override
          public Forge call() throws Exception
          {
-            Class<?> bootstrapType = loader.loadClass("org.jboss.forge.container.Forge");
+            Class<?> bootstrapType = loader.loadClass("org.jboss.forge.container.ForgeImpl");
             return (Forge) Enhancer.create(Forge.class,
                      new ClassLoaderAdapterCallback(loader, bootstrapType.newInstance()));
          }
