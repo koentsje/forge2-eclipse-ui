@@ -32,9 +32,9 @@ public enum ForgeService
       this.forge = forge;
    }
 
-   public void start()
+   public void start(ClassLoader loader)
    {
-      forge.startAsync();
+      forge.startAsync(loader);
    }
 
    public AddonRegistry getAddonRegistry()

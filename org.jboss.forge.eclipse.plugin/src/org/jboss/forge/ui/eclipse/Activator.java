@@ -4,6 +4,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.ServiceLoader;
 import java.util.concurrent.Callable;
 
 import net.sf.cglib.proxy.Enhancer;
@@ -38,7 +39,7 @@ public class Activator extends AbstractUIPlugin
 
    /*
     * (non-Javadoc)
-    *
+    * 
     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
     */
    @Override
@@ -63,19 +64,21 @@ public class Activator extends AbstractUIPlugin
          @Override
          public Forge call() throws Exception
          {
-            Class<?> bootstrapType = loader.loadClass("org.jboss.forge.container.ForgeImpl");
-            return (Forge) Enhancer.create(Forge.class,
-                     new ClassLoaderAdapterCallback(loader, bootstrapType.newInstance()));
+            Class<?> bootstrapType = loader.loadClass("org.jboss.forge.container.Forge");
+            Object instance = ServiceLoader.load(bootstrapType, loader).iterator().next();
+            Forge forge = (Forge) Enhancer.create(Forge.class,
+                     new ClassLoaderAdapterCallback(loader, instance));
+            return forge;
          }
       });
       ForgeService.INSTANCE.setForge(forge);
-      ForgeService.INSTANCE.start();
+      ForgeService.INSTANCE.start(loader);
       plugin = this;
    }
 
    /*
     * (non-Javadoc)
-    *
+    * 
     * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
     */
    @Override
@@ -88,7 +91,7 @@ public class Activator extends AbstractUIPlugin
 
    /**
     * Returns the shared instance
-    *
+    * 
     * @return the shared instance
     */
    public static Activator getDefault()
@@ -98,7 +101,7 @@ public class Activator extends AbstractUIPlugin
 
    /**
     * Returns an image descriptor for the image file at the given plug-in relative path
-    *
+    * 
     * @param path the path
     * @return the image descriptor
     */
