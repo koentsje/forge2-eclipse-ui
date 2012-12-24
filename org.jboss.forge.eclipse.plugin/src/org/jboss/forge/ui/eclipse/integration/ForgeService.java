@@ -9,7 +9,6 @@ package org.jboss.forge.ui.eclipse.integration;
 
 import org.jboss.forge.container.AddonRegistry;
 import org.jboss.forge.container.Forge;
-import org.jboss.forge.se.init.ForgeFactory;
 
 /**
  * This is a singleton for the {@link Forge} class.
@@ -17,14 +16,20 @@ import org.jboss.forge.se.init.ForgeFactory;
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  *
  */
+
 public enum ForgeService
 {
    INSTANCE;
 
-   private Forge forge;
+   private transient Forge forge;
 
    private ForgeService()
    {
+   }
+
+   public void setForge(Forge forge)
+   {
+      this.forge = forge;
    }
 
    public void start()
@@ -41,4 +46,5 @@ public enum ForgeService
    {
       forge.stop();
    }
+
 }
