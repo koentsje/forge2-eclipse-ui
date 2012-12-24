@@ -25,7 +25,6 @@ public enum ForgeService
 
    private ForgeService()
    {
-      forge = ForgeFactory.getInstance();
    }
 
    public void start()
