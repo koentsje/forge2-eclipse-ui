@@ -65,7 +65,6 @@
             </property>
          </activation>
          <modules>
-            <module>org.jboss.forge.eclipse.runtime</module>
             <module>org.jboss.forge.eclipse.plugin</module>
          </modules>
       </profile>
@@ -76,7 +75,6 @@
             <activeByDefault>false</activeByDefault>
          </activation>
          <modules>
-            <module>org.jboss.forge.eclipse.runtime</module>
             <module>org.jboss.forge.eclipse.plugin</module>
          </modules>
       </profile>
