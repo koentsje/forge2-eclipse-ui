@@ -1,10 +1,14 @@
 package org.jboss.forge.ui.eclipse;
 
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.ServiceLoader;
 import java.util.concurrent.Callable;
 
 import net.sf.cglib.proxy.Enhancer;
@@ -18,6 +22,8 @@ import org.jboss.forge.ui.eclipse.integration.ForgeService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.wiring.BundleWiring;
 
+import bootpath.BootpathMarker;
+
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -29,6 +35,8 @@ public class Activator extends AbstractUIPlugin
 
    // The shared instance
    private static Activator plugin;
+
+   private URLClassLoader loader;
 
    /**
     * The constructor
@@ -43,37 +51,92 @@ public class Activator extends AbstractUIPlugin
     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
     */
    @Override
-   public void start(BundleContext context) throws Exception
+   public void start(final BundleContext context) throws Exception
    {
       super.start(context);
-
-      BundleWiring wiring = context.getBundle().adapt(BundleWiring.class);
-      Collection<String> entries = wiring.listResources("bootpath", "*.jar", BundleWiring.LISTRESOURCES_LOCAL);
-      Collection<URL> resources = new HashSet<URL>();
-      if (entries != null)
-         for (String resource : entries)
-         {
-            URL jar = context.getBundle().getResource(resource);
-            if (jar != null)
-               resources.add(jar);
-         }
-
-      final URLClassLoader loader = new URLClassLoader(resources.toArray(new URL[resources.size()]), null);
       Forge forge = ClassLoaders.executeIn(loader, new Callable<Forge>()
       {
          @Override
          public Forge call() throws Exception
          {
-            Class<?> bootstrapType = loader.loadClass("org.jboss.forge.container.Forge");
-            Object instance = ServiceLoader.load(bootstrapType, loader).iterator().next();
+            BundleWiring wiring = context.getBundle().adapt(BundleWiring.class);
+            Collection<String> entries = wiring.listResources("bootpath", "*.jar", BundleWiring.LISTRESOURCES_LOCAL);
+            Collection<URL> resources = new HashSet<URL>();
+            File jarDir = File.createTempFile("forge", "jars");
+            if (entries != null)
+               for (String resource : entries)
+               {
+                  URL jar = BootpathMarker.class.getResource("/" + resource);
+                  if (jar != null)
+                  {
+                     resources.add(copy(jarDir, resource, jar.openStream()));
+                  }
+               }
+
+            for (URL url : resources)
+            {
+               System.out.println(url);
+            }
+
+            loader = new URLClassLoader(resources.toArray(new URL[resources.size()]), null);
+
+            Class<?> bootstrapType = loader.loadClass("org.jboss.forge.container.ForgeImpl");
+
             Forge forge = (Forge) Enhancer.create(Forge.class,
-                     new ClassLoaderAdapterCallback(loader, instance));
+                     new ClassLoaderAdapterCallback(loader, bootstrapType.newInstance()));
             return forge;
          }
       });
       ForgeService.INSTANCE.setForge(forge);
       ForgeService.INSTANCE.start(loader);
       plugin = this;
+   }
+
+   private URL copy(File directory, String name, InputStream input) throws IOException
+   {
+      File outputFile = new File(directory, name);
+
+      FileOutputStream output = null;
+      try
+      {
+         directory.delete();
+         outputFile.getParentFile().mkdirs();
+         outputFile.createNewFile();
+
+         output = new FileOutputStream(outputFile);
+         final byte[] buffer = new byte[4096];
+         int read = 0;
+         while ((read = input.read(buffer)) != -1)
+         {
+            output.write(buffer, 0, read);
+         }
+         output.flush();
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("Could not write out jar file " + name, e);
+      }
+      finally
+      {
+         close(input);
+         close(output);
+      }
+      return outputFile.toURL();
+   }
+
+   private void close(Closeable closeable)
+   {
+      try
+      {
+         if (closeable != null)
+         {
+            closeable.close();
+         }
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("Could not close stream", e);
+      }
    }
 
    /*
