@@ -54,7 +54,15 @@ public class Activator extends AbstractUIPlugin
    public void start(final BundleContext context) throws Exception
    {
       super.start(context);
-      Forge forge = ClassLoaders.executeIn(loader, new Callable<Forge>()
+      Forge forge = getForge(context);
+      ForgeService.INSTANCE.setForge(forge);
+      ForgeService.INSTANCE.start(loader);
+      plugin = this;
+   }
+
+   private Forge getForge(final BundleContext context)
+   {
+      return ClassLoaders.executeIn(loader, new Callable<Forge>()
       {
          @Override
          public Forge call() throws Exception
@@ -73,11 +81,6 @@ public class Activator extends AbstractUIPlugin
                   }
                }
 
-            for (URL url : resources)
-            {
-               System.out.println(url);
-            }
-
             loader = new URLClassLoader(resources.toArray(new URL[resources.size()]), null);
 
             Class<?> bootstrapType = loader.loadClass("org.jboss.forge.container.ForgeImpl");
@@ -87,11 +90,9 @@ public class Activator extends AbstractUIPlugin
             return forge;
          }
       });
-      ForgeService.INSTANCE.setForge(forge);
-      ForgeService.INSTANCE.start(loader);
-      plugin = this;
    }
 
+   @SuppressWarnings("deprecation")
    private URL copy(File directory, String name, InputStream input) throws IOException
    {
       File outputFile = new File(directory, name);
