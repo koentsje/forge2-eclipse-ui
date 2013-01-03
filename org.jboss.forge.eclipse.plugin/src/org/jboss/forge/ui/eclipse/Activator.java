@@ -11,8 +11,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.concurrent.Callable;
 
-import net.sf.cglib.proxy.Enhancer;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.jboss.forge.container.Forge;
@@ -85,8 +83,9 @@ public class Activator extends AbstractUIPlugin
 
             Class<?> bootstrapType = loader.loadClass("org.jboss.forge.container.ForgeImpl");
 
-            Forge forge = (Forge) Enhancer.create(Forge.class,
-                     new ClassLoaderAdapterCallback(loader, bootstrapType.newInstance()));
+            Forge forge = (Forge)
+                     ClassLoaderAdapterCallback.enhance(Forge.class.getClassLoader(), loader, bootstrapType.newInstance(),
+                              Forge.class);
             return forge;
          }
       });

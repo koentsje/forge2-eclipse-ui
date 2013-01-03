@@ -22,8 +22,64 @@
             hasPages="true"
             icon="icons/forge.ico"
             id="org.jboss.forge.ui.eclipse.wizard.ForgeWizard"
-            name="Run an Addon">
+            name="Run a Forge Command">
       </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.jboss.forge.eclipse.plugin.handlers.ForgeCommandHandler"
+            commandId="org.jboss.forge.eclipse.plugin.commands.sampleCommand">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.jboss.forge.eclipse.plugin.commands.sampleCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+6">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               id="org.jboss.forge.eclipse.plugin.menus.sampleMenu"
+               label="Sample Menu"
+               mnemonic="M">
+            <command
+                  commandId="org.jboss.forge.eclipse.plugin.commands.sampleCommand"
+                  id="org.jboss.forge.eclipse.plugin.menus.sampleCommand"
+                  mnemonic="S">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="org.jboss.forge.eclipse.plugin.toolbars.sampleToolbar">
+            <command
+                  commandId="org.jboss.forge.eclipse.plugin.commands.sampleCommand"
+                  icon="icons/forge_16.ico"
+                  id="org.jboss.forge.eclipse.plugin.toolbars.sampleCommand"
+                  tooltip="Run a Forge Command">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="org.jboss.forge.eclipse.plugin.commands.category"
+            name="Forge">
+      </category>
+      <command
+            categoryId="org.jboss.forge.eclipse.plugin.commands.category"
+            id="org.jboss.forge.eclipse.plugin.commands.sampleCommand"
+            name="Run a Forge Command">
+      </command>
    </extension>
 
 </plugin>
