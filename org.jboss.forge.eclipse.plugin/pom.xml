@@ -26,9 +26,9 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>cglib</groupId>
-									<artifactId>cglib-nodep</artifactId>
-									<version>2.2</version>
+									<groupId>org.javassist</groupId>
+									<artifactId>javassist</artifactId>
+									<version>3.15.0-GA</version>
 								</artifactItem>
 								<artifactItem>
 									<groupId>org.jboss.forge</groupId>

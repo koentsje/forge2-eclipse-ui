@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: lib/cglib-nodep-2.2.jar,
+Bundle-ClassPath: lib/javassist-3.15.0-GA.jar,
  lib/forge-addon-container-api-2.0.0-SNAPSHOT.jar,
  lib/forge-se-2.0.0-SNAPSHOT.jar,
  lib/ui-api-2.0.0-SNAPSHOT.jar,
