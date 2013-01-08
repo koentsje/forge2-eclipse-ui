@@ -11,7 +11,6 @@
       <wizard
             category="org.jboss.forge.ui"
             class="org.jboss.forge.uiview.wizards.SampleNewWizard"
-            descriptionImage="icons/forge.png"
             hasPages="true"
             id="org.jboss.forge.uiview.wizards.SampleNewWizard"
             name="Sample">

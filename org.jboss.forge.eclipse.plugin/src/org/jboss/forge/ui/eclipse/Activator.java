@@ -45,7 +45,7 @@ public class Activator extends AbstractUIPlugin
 
    /*
     * (non-Javadoc)
-    * 
+    *
     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
     */
    @Override
@@ -84,14 +84,14 @@ public class Activator extends AbstractUIPlugin
             Class<?> bootstrapType = loader.loadClass("org.jboss.forge.container.ForgeImpl");
 
             Forge forge = (Forge)
-                     ClassLoaderAdapterCallback.enhance(Forge.class.getClassLoader(), loader, bootstrapType.newInstance(),
+                     ClassLoaderAdapterCallback.enhance(Forge.class.getClassLoader(), loader,
+                              bootstrapType.newInstance(),
                               Forge.class);
             return forge;
          }
       });
    }
 
-   @SuppressWarnings("deprecation")
    private URL copy(File directory, String name, InputStream input) throws IOException
    {
       File outputFile = new File(directory, name);
@@ -121,7 +121,7 @@ public class Activator extends AbstractUIPlugin
          close(input);
          close(output);
       }
-      return outputFile.toURL();
+      return outputFile.toURI().toURL();
    }
 
    private void close(Closeable closeable)
@@ -141,7 +141,7 @@ public class Activator extends AbstractUIPlugin
 
    /*
     * (non-Javadoc)
-    * 
+    *
     * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
     */
    @Override
@@ -154,7 +154,7 @@ public class Activator extends AbstractUIPlugin
 
    /**
     * Returns the shared instance
-    * 
+    *
     * @return the shared instance
     */
    public static Activator getDefault()
@@ -164,7 +164,7 @@ public class Activator extends AbstractUIPlugin
 
    /**
     * Returns an image descriptor for the image file at the given plug-in relative path
-    * 
+    *
     * @param path the path
     * @return the image descriptor
     */

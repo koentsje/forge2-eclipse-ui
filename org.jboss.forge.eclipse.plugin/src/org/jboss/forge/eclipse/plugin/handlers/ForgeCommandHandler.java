@@ -5,15 +5,15 @@ import java.util.Set;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.jboss.forge.container.Addon;
 import org.jboss.forge.ui.eclipse.integration.ForgeService;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
- * 
+ *
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
@@ -36,8 +36,6 @@ public class ForgeCommandHandler extends AbstractHandler
 
       Set<Addon> addons = ForgeService.INSTANCE.getAddonRegistry().getRegisteredAddons();
 
-      int size = addons.size();
-      
       for (Addon addon : addons)
       {
          message += addon + "\n";
